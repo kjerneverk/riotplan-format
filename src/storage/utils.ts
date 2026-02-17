@@ -6,6 +6,7 @@
 
 import { existsSync, statSync, readFileSync } from 'node:fs';
 import { join, extname } from 'node:path';
+import { randomUUID } from 'node:crypto';
 import type { StorageFormat } from '../types.js';
 import type { FormatConfig } from '../config.js';
 import { DEFAULT_FORMAT_CONFIG } from '../config.js';
@@ -240,4 +241,34 @@ export function getPlanNameFromPath(
     // Get the last path component
     const parts = name.split(/[/\\]/);
     return parts[parts.length - 1] || name;
+}
+
+/**
+ * Generate a new plan UUID
+ * 
+ * @returns A new UUID v4 string
+ */
+export function generatePlanUuid(): string {
+    return randomUUID();
+}
+
+/**
+ * Abbreviate a UUID to its first 8 characters
+ * 
+ * @param uuid - The full UUID
+ * @returns The first 8 characters of the UUID
+ */
+export function abbreviateUuid(uuid: string): string {
+    return uuid.substring(0, 8);
+}
+
+/**
+ * Format a plan filename using UUID abbreviation and slug
+ * 
+ * @param uuid - The plan UUID
+ * @param slug - The plan slug (code)
+ * @returns Formatted filename: {uuid-abbrev}-{slug}.plan
+ */
+export function formatPlanFilename(uuid: string, slug: string): string {
+    return `${abbreviateUuid(uuid)}-${slug}.plan`;
 }

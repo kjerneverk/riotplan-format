@@ -16,6 +16,8 @@ export type StorageFormat = 'directory' | 'sqlite';
 export interface PlanMetadata {
     /** Unique plan identifier (code) */
     id: string;
+    /** Globally unique identifier */
+    uuid: string;
     /** Human-readable plan name */
     name: string;
     /** Plan description */

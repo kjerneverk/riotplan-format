@@ -99,6 +99,35 @@ describe('SqliteStorageProvider', () => {
             expect(result.data?.stage).toBe('idea');
         });
 
+        it('should generate UUID if not provided', async () => {
+            const result = await provider.getMetadata();
+            
+            expect(result.success).toBe(true);
+            expect(result.data?.uuid).toBeDefined();
+            expect(result.data?.uuid).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+        });
+
+        it('should use provided UUID', async () => {
+            await provider.close();
+            
+            const customUuid = randomUUID();
+            const newDbPath = join(testDir, 'test-with-uuid.plan');
+            provider = createSqliteProvider(newDbPath);
+            
+            await provider.initialize({
+                id: 'test-plan-2',
+                uuid: customUuid,
+                name: 'Test Plan 2',
+                stage: 'idea',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                schemaVersion: 1,
+            });
+
+            const result = await provider.getMetadata();
+            expect(result.data?.uuid).toBe(customUuid);
+        });
+
         it('should update metadata', async () => {
             await provider.updateMetadata({
                 name: 'Updated Plan',
