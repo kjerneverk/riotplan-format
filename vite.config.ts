@@ -30,14 +30,9 @@ export default defineConfig({
                 {
                     name: 'copy-schema',
                     writeBundle: () => {
-                        // Copy schema.sql to dist/storage/
+                        // Copy schema.sql to dist/ (where bundled code expects it)
                         const srcPath = resolve('src/storage/schema.sql');
-                        const destDir = resolve('dist/storage');
-                        const destPath = resolve(destDir, 'schema.sql');
-                        
-                        if (!existsSync(destDir)) {
-                            mkdirSync(destDir, { recursive: true });
-                        }
+                        const destPath = resolve('dist/schema.sql');
                         copyFileSync(srcPath, destPath);
                     }
                 }
