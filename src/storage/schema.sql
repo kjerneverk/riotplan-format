@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 CREATE TABLE IF NOT EXISTS plans (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,
+    uuid TEXT NOT NULL UNIQUE,
     name TEXT NOT NULL,
     description TEXT,
     stage TEXT NOT NULL DEFAULT 'idea',
@@ -111,6 +112,7 @@ CREATE TABLE IF NOT EXISTS step_reflections (
 );
 
 -- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_plans_uuid ON plans(uuid);
 CREATE INDEX IF NOT EXISTS idx_steps_plan_number ON plan_steps(plan_id, number);
 CREATE INDEX IF NOT EXISTS idx_files_plan_type ON plan_files(plan_id, file_type);
 CREATE INDEX IF NOT EXISTS idx_timeline_plan_time ON timeline_events(plan_id, timestamp);

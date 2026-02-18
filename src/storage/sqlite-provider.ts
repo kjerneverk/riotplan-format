@@ -82,13 +82,17 @@ export class SqliteStorageProvider implements StorageProvider {
         try {
             this.initializeSchema();
             
+            // Generate UUID if not provided
+            const uuid = metadata.uuid || randomUUID();
+            
             const stmt = this.db.prepare(`
-                INSERT INTO plans (code, name, description, stage, created_at, updated_at, schema_version)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO plans (code, uuid, name, description, stage, created_at, updated_at, schema_version)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `);
             
             const result = stmt.run(
                 metadata.id,
+                uuid,
                 metadata.name,
                 metadata.description || null,
                 metadata.stage,
@@ -117,10 +121,11 @@ export class SqliteStorageProvider implements StorageProvider {
     async getMetadata(): Promise<StorageResult<PlanMetadata>> {
         try {
             const row = this.db.prepare(`
-                SELECT code, name, description, stage, created_at, updated_at, schema_version
+                SELECT code, uuid, name, description, stage, created_at, updated_at, schema_version
                 FROM plans WHERE id = ?
             `).get(this.getPlanId()) as {
                 code: string;
+                uuid: string;
                 name: string;
                 description: string | null;
                 stage: string;
@@ -137,6 +142,7 @@ export class SqliteStorageProvider implements StorageProvider {
                 success: true,
                 data: {
                     id: row.code,
+                    uuid: row.uuid,
                     name: row.name,
                     description: row.description || undefined,
                     stage: row.stage as PlanMetadata['stage'],

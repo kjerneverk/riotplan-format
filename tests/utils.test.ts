@@ -18,6 +18,9 @@ import {
     inferFormatFromPath,
     validatePlanPath,
     getPlanNameFromPath,
+    generatePlanUuid,
+    abbreviateUuid,
+    formatPlanFilename,
 } from '../src/storage/utils.js';
 
 describe('Storage utilities', () => {
@@ -275,6 +278,53 @@ describe('Storage utilities', () => {
 
         it('should handle Windows-style paths', () => {
             expect(getPlanNameFromPath('C:\\path\\to\\my-plan.plan', 'sqlite')).toBe('my-plan');
+        });
+    });
+
+    describe('UUID utilities', () => {
+        describe('generatePlanUuid', () => {
+            it('should generate a valid UUID v4', () => {
+                const uuid = generatePlanUuid();
+                
+                // UUID v4 format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+                const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                expect(uuid).toMatch(uuidRegex);
+            });
+
+            it('should generate unique UUIDs', () => {
+                const uuid1 = generatePlanUuid();
+                const uuid2 = generatePlanUuid();
+                
+                expect(uuid1).not.toBe(uuid2);
+            });
+        });
+
+        describe('abbreviateUuid', () => {
+            it('should return first 8 characters', () => {
+                const uuid = 'a3f7b2c1-1234-4567-89ab-cdef01234567';
+                expect(abbreviateUuid(uuid)).toBe('a3f7b2c1');
+            });
+
+            it('should handle short UUIDs', () => {
+                const shortUuid = 'abc123';
+                expect(abbreviateUuid(shortUuid)).toBe('abc123');
+            });
+        });
+
+        describe('formatPlanFilename', () => {
+            it('should format filename with UUID abbreviation and slug', () => {
+                const uuid = 'a3f7b2c1-1234-4567-89ab-cdef01234567';
+                const slug = 'riotplan-http-mcp';
+                
+                expect(formatPlanFilename(uuid, slug)).toBe('a3f7b2c1-riotplan-http-mcp.plan');
+            });
+
+            it('should handle different slugs', () => {
+                const uuid = 'b1c2d3e4-5678-4901-89ab-cdef01234567';
+                
+                expect(formatPlanFilename(uuid, 'my-feature')).toBe('b1c2d3e4-my-feature.plan');
+                expect(formatPlanFilename(uuid, 'another-plan')).toBe('b1c2d3e4-another-plan.plan');
+            });
         });
     });
 });

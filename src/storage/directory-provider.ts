@@ -34,6 +34,7 @@ import type {
  * ├── IDEA.md (optional)
  * ├── SHAPING.md (optional)
  * ├── EXECUTION_PLAN.md (optional)
+ * ├── plan.yaml (contains metadata including UUID)
  * ├── plan/
  * │   ├── 01-step-one.md
  * │   ├── 02-step-two.md
@@ -54,6 +55,11 @@ import type {
  * This is a base implementation that throws "not implemented" errors.
  * The main riotplan package should extend this class and implement
  * the methods using its existing file loading logic.
+ * 
+ * **UUID Handling**: When implementing this provider, ensure that:
+ * - UUIDs are generated using `generatePlanUuid()` from utils.ts if not provided
+ * - UUIDs are persisted in plan.yaml metadata file
+ * - UUIDs are included in PlanMetadata returned by getMetadata()
  */
 export class DirectoryStorageProvider implements StorageProvider {
     readonly format: StorageFormat = 'directory';

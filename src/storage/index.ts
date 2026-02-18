@@ -22,4 +22,6 @@ export {
     inferFormatFromPath,
     validatePlanPath,
     getPlanNameFromPath,
+    generatePlanUuid,
+    formatPlanFilename,
 } from './utils.js';
