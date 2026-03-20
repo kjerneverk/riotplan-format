@@ -1,6 +1,6 @@
 {
   "name": "@kjerneverk/riotplan-format",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SQLite-based storage format for RiotPlan with dual format support",
   "type": "module",
   "main": "./dist/index.js",
@@ -54,5 +54,8 @@
     "vite": "^7.0.4",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.17"
+  },
+  "publishConfig": {
+    "tag": "dev"
   }
 }
