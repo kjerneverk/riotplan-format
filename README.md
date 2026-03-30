@@ -1,4 +1,4 @@
-# @kjerneverk/riotplan-format
+# @planvokter/riotplan-format
 
 SQLite-based storage format for RiotPlan with dual format support.
 
@@ -7,7 +7,7 @@ This package provides a storage abstraction layer that supports both directory-b
 ## Installation
 
 ```bash
-npm install @kjerneverk/riotplan-format
+npm install @planvokter/riotplan-format
 ```
 
 ## Features
@@ -24,7 +24,7 @@ npm install @kjerneverk/riotplan-format
 ### Creating a SQLite Plan
 
 ```typescript
-import { SqliteStorageProvider } from '@kjerneverk/riotplan-format';
+import { SqliteStorageProvider } from '@planvokter/riotplan-format';
 
 const provider = new SqliteStorageProvider('./my-plan.plan');
 
@@ -54,7 +54,7 @@ await provider.close();
 ### Using the Storage Factory
 
 ```typescript
-import { createStorageFactory, createProvider } from '@kjerneverk/riotplan-format';
+import { createStorageFactory, createProvider } from '@planvokter/riotplan-format';
 
 // Create a factory with custom config
 const factory = createStorageFactory({
@@ -75,7 +75,7 @@ const provider2 = createProvider('./another.plan', { format: 'sqlite' });
 ### Format Detection
 
 ```typescript
-import { detectPlanFormat, inferFormatFromPath } from '@kjerneverk/riotplan-format';
+import { detectPlanFormat, inferFormatFromPath } from '@planvokter/riotplan-format';
 
 // Detect format of existing plan
 const format = detectPlanFormat('./my-plan'); // 'directory' | 'sqlite' | 'unknown'
@@ -87,7 +87,7 @@ const inferred = inferFormatFromPath('./my-plan.plan'); // 'sqlite'
 ### Migration Between Formats
 
 ```typescript
-import { PlanMigrator, MigrationValidator } from '@kjerneverk/riotplan-format';
+import { PlanMigrator, MigrationValidator } from '@planvokter/riotplan-format';
 
 const migrator = new PlanMigrator();
 
@@ -118,7 +118,7 @@ const validation = await validator.validate(sourceProvider, targetProvider);
 ### Rendering to Markdown
 
 ```typescript
-import { renderPlanToMarkdown } from '@kjerneverk/riotplan-format';
+import { renderPlanToMarkdown } from '@planvokter/riotplan-format';
 
 const rendered = await renderPlanToMarkdown(provider, {
     includeEvidence: true,

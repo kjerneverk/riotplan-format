@@ -1,6 +1,6 @@
 {
-  "name": "@kjerneverk/riotplan-format",
-  "version": "1.0.13",
+  "name": "@planvokter/riotplan-format",
+  "version": "1.0.13-dev.0",
   "description": "SQLite-based storage format for RiotPlan with dual format support",
   "type": "module",
   "main": "./dist/index.js",
@@ -34,7 +34,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kjerneverk/riotplan-format"
+    "url": "https://github.com/planvokter/riotplan-format"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1"
@@ -56,6 +56,7 @@
     "vitest": "^4.0.17"
   },
   "publishConfig": {
+    "access": "public",
     "tag": "dev"
   }
 }

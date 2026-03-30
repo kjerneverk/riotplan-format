@@ -1,5 +1,5 @@
 /**
- * @kjerneverk/riotplan-format
+ * @planvokter/riotplan-format
  * 
  * SQLite-based storage format for RiotPlan with dual format support.
  * 
